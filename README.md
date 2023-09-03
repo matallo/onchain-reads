@@ -10,9 +10,13 @@ Onchain Reads provides a space for users to connect with like-minded individuals
 
 **I'm seeking avid readers who can join me in building the best onchain discovery system for books**, and who will ultimately become integral members of this community. [Send me](mailto:carlos@pincaster.xyz) your desert island, all-time, top-five most memorable ~breakups~ book recommendations.
 
-## Install
+## Install and development
 
-Install and development instructions are in progress.
+```
+bin/rails db:create
+bin/rails db:migrate
+bin/rails server
+```
 
 ## Usage
 
