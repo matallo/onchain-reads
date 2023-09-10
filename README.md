@@ -13,19 +13,17 @@ Onchain Reads provides a space for users to connect with like-minded individuals
 ## Install and development
 
 ```
-bin/rails db:create
-bin/rails db:migrate
-bin/rails server
+bun install
+bun dev
 ```
 
 ## Usage
 
-Onchain Reads enables users to write reviews for the books they've read and access reviews contributed by other users. Users can:
+Onchain Reads enables users to mark the books they've read onchain. Users can:
 
-- Write reviews for books they've read.
 - Add books that aren't already listed.
-- Explore reviews provided by other users for a specific book.
-- Search through registered books and their reviews.
+- Explore the books that a user has read.
+- Search through registered books and the users that have marked the book as read.
 
 Furthermore, Onchain Reads serves as a reputation and recommendation system, helping users discover new books. It could also expand its coverage to include additional resources such as blogs, podcasts, newsletters, movies, TV shows, places, and apps.
 
