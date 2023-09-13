@@ -15,7 +15,9 @@ export default async function handler(_: NextApiRequest, res: NextApiResponse) {
     return res.status(200).json({ booksCount: rowsCount[0].count });
   }
 
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/books.csv`);
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_BASE_URL}/books.csv`
+  );
 
   if (!response.ok) {
     throw new Error(
@@ -28,16 +30,23 @@ export default async function handler(_: NextApiRequest, res: NextApiResponse) {
   Papa.parse(csvData, {
     header: true,
     step: async function (results, parser) {
-      const { title = "", author = "" }: { title: string; author: string } =
-        results.data as { title: string; author: string };
+      const {
+        title = "",
+        author = "",
+        imageUrl = "",
+      }: { title: string; author: string; imageUrl: string } = results.data as {
+        title: string;
+        author: string;
+        imageUrl: string;
+      };
 
       if (title !== "" && author !== "") {
         const slug = generateHash(`${title}${author}`);
         try {
-          await sql`INSERT INTO books (title, author, slug)
-          VALUES (${title}, ${author}, ${slug})
+          await sql`INSERT INTO books (title, author, image_url, slug)
+          VALUES (${title}, ${author}, ${imageUrl}, ${slug})
           ON CONFLICT (slug) DO UPDATE
-          SET title = EXCLUDED.title, author = EXCLUDED.author;`;
+          SET title = EXCLUDED.title, author = EXCLUDED.author, image_url = EXCLUDED.image_url;`;
         } catch (error) {
           console.error("Failed to insert/update record:", error);
         }
