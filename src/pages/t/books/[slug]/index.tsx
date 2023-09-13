@@ -31,33 +31,30 @@ export default function Books({
   const signer = useSigner();
 
   const fetchData = useCallback(async () => {
-    const { data } = await fetch(
-      "https://optimism-goerli-bedrock.easscan.org/graphql",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          query: `
+    const { data } = await fetch("https://base.easscan.org/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `
             query Attestations($where: AttestationWhereInput) {
               attestations(where: $where) {
                 attester
               }
             }`,
-          variables: {
-            where: {
-              data: {
-                startsWith: `0x${slug}`,
-              },
-              revoked: {
-                equals: false,
-              },
+        variables: {
+          where: {
+            data: {
+              startsWith: `0x${slug}`,
+            },
+            revoked: {
+              equals: false,
             },
           },
-        }),
-      }
-    ).then((res) => res.json());
+        },
+      }),
+    }).then((res) => res.json());
 
     setAttestations(data.attestations.map(({ attester }: any) => attester));
 

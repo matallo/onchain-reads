@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { SidebarLeft, SidebarMenu } from "@/components";
 
-export default function Books({ page }: { page: number }) {
+export default function Books() {
   const [books, setBooks] = useState([]);
-  const [currentPage, setCurrentPage] = useState(page);
   const [error, setError] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -16,9 +14,7 @@ export default function Books({ page }: { page: number }) {
     setLoading(true);
     setBooks([]);
 
-    await fetch(
-      `${process.env.NEXT_PUBLIC_APP_BASE_URL}/api/books?page=${currentPage}`
-    )
+    await fetch(`${process.env.NEXT_PUBLIC_APP_BASE_URL}/api/books`)
       .then((res) => res.json())
       .then(({ books: booksData, errorMessage }) => {
         if (errorMessage) {
@@ -33,11 +29,11 @@ export default function Books({ page }: { page: number }) {
       .finally(() => {
         setLoading(false);
       });
-  }, [currentPage]);
+  }, []);
 
   useEffect(() => {
     fetchData();
-  }, [currentPage, fetchData]);
+  }, [fetchData]);
 
   const hasBooks = books?.length > 0;
 
@@ -190,13 +186,3 @@ export default function Books({ page }: { page: number }) {
     </div>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const page = context.query?.page || 1;
-
-  return {
-    props: {
-      page,
-    },
-  };
-};

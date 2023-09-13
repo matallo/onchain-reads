@@ -2,14 +2,14 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { WagmiConfig, createConfig } from "wagmi";
-import { optimismGoerli } from "wagmi/chains";
+import { base } from "wagmi/chains";
 
 const config = createConfig(
   getDefaultConfig({
     alchemyId: process.env.ALCHEMY_API_KEY,
     walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID || "",
     appName: "Onchain Reads",
-    chains: [optimismGoerli],
+    chains: [base],
   })
 );
 
